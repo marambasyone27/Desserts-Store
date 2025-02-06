@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "17526372615",
+    "project_id": "maramstore-1397e",
+    "storage_bucket": "maramstore-1397e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:17526372615:android:874d917538f28c0c7deda2",
+        "android_client_info": {
+          "package_name": "com.example.maramstore"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgVqRH3FffgNQp1SOtBCVgBpnHSIzFlZk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
