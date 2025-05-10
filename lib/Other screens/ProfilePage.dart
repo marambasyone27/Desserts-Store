@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:maramstore/ThemeProvider.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -57,17 +59,6 @@ class _ProfilePageState extends State<ProfilePage> {
     prefs.setString('birthdate', selectedDate != null ? selectedDate!.toIso8601String() : '');
   }
 
-  void selectImage() async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      setState(() {
-        imagePath = image.path; // Save the image path
-        _image = image.path; // Update the UI to show selected image
-      });
-      saveUserData(); // Save image path locally
-    }
-  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -86,8 +77,23 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          // light and dark mode button
+          IconButton(
+            icon: Icon(
+              themeProvider.isDarkMode
+                  ? Icons.dark_mode
+                  :Icons.light_mode,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              themeProvider.toggleTheme();
+            },
+          ),
+        ],
         iconTheme: const IconThemeData(color: Colors.white),
         shadowColor: const Color.fromARGB(255, 96, 5, 35),
         elevation: 2.0,
@@ -135,7 +141,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           right: 0,  
                           child: IconButton(
                             icon: const Icon(Icons.camera_alt, color: Color.fromARGB(255, 241, 204, 204) ),
-                            onPressed: selectImage,
+                            onPressed:(){},
                             tooltip: "Edit Profile Image",
                             color: Colors.pinkAccent,
                           ),

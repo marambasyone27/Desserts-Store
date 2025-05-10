@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:maramstore/FavouriteProvider.dart';
-import 'package:maramstore/ProductDetails.dart';
-import 'package:maramstore/Products_Information.dart';
+import 'package:maramstore/ThemeProvider.dart';
+import 'package:maramstore/products%20information/ProductDetails.dart';
+import 'package:maramstore/products%20information/Products_Information.dart';
 import 'package:provider/provider.dart';
 
 class Cake extends StatefulWidget {
@@ -12,8 +13,25 @@ class Cake extends StatefulWidget {
 class _Cake extends State<Cake> {
   @override
   Widget build(BuildContext context) {
+      final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          // light and dark mode button
+          IconButton(
+            icon: Icon(
+              themeProvider.isDarkMode
+                  ? Icons.dark_mode
+                  :Icons.light_mode,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              themeProvider.toggleTheme();
+            },
+          ),
+        ],
+        
+
         iconTheme: const IconThemeData(color: Colors.white),
         shadowColor: const Color.fromARGB(255, 96, 5, 35),
         elevation: 2.0,
@@ -62,58 +80,58 @@ class _Cake extends State<Cake> {
                 ),
               );
             },
-            child: Card(
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-                    child: Image.asset(
-                      Category.image ?? 'assets/images/placeholder.jpg',
-                      width: double.infinity,
-                      height: 160,
-                      fit: BoxFit.cover,
+                 child: Card(
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(5.0),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            Category.name ?? "No Name",
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.pinkAccent,
-                            ),
+                        ClipRRect(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(15)),
+                          child: Image.asset(
+                            Category.image ?? 'assets/images/placeholder.jpg',
+                            width: double.infinity,
+                            height: 140,
+                            fit: BoxFit.cover,
                           ),
                         ),
-                        const SizedBox(height: 2),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const SizedBox(width: 30),
-                      Text(
-                        "${Category.price}",
-                        style: const TextStyle(
-                          fontStyle: FontStyle.italic,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.pinkAccent,
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  Category.name ?? "No Name",
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.pinkAccent,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 20),
-                      IconButton(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const SizedBox(width: 30),
+                            Text(
+                              "${Category.price}",
+                              style: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.pinkAccent,
+                              ),
+                            ),
+                            const SizedBox(width: 20),
+                            IconButton(
                               onPressed: () {
                                 final favouriteProvider =
                                     Provider.of<FavouriteProvider>(context,
@@ -139,6 +157,12 @@ class _Cake extends State<Cake> {
                                         .addToFavourites(favouriteItem);
                                   }
                                 }
+                              else {
+                                if (mounted) {
+                            favouriteProvider.removeByName(Category.name ?? "");
+                              }
+                              }
+                                 
                               },
                               icon: Icon(
                                 Category.icon,
@@ -146,11 +170,11 @@ class _Cake extends State<Cake> {
                                 size: 30,
                               ),
                             )
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ],
-              ),
-            ),
           );
         },
       ),

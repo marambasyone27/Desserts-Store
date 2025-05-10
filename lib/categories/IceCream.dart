@@ -1,19 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:maramstore/FavouriteProvider.dart';
-import 'package:maramstore/ProductDetails.dart';
-import 'package:maramstore/Products_Information.dart';
+import 'package:maramstore/ThemeProvider.dart';
+import 'package:maramstore/products%20information/ProductDetails.dart';
+import 'package:maramstore/products%20information/Products_Information.dart';
 import 'package:provider/provider.dart';
 
 class Icecream extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _IcecreamState();
 }
-
+      
 class _IcecreamState extends State<Icecream> {
   @override
   Widget build(BuildContext context) {
+       final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          // light and dark mode button
+          IconButton(
+            icon: Icon(
+              themeProvider.isDarkMode
+                  ? Icons.dark_mode
+                  :Icons.light_mode,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              themeProvider.toggleTheme();
+            },
+          ),
+        ],
         iconTheme: const IconThemeData(color: Colors.white),
         shadowColor: const Color.fromARGB(255, 96, 5, 35),
         elevation: 2.0,
@@ -77,7 +93,7 @@ class _IcecreamState extends State<Icecream> {
                       child: Image.asset(
                         Category.image ?? 'assets/images/placeholder.jpg',
                         width: double.infinity,
-                        height: 160,
+                        height: 140,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -122,39 +138,43 @@ class _IcecreamState extends State<Icecream> {
                         SizedBox(
                           width: 20,
                         ),
-                       IconButton(
-                              onPressed: () {
-                                final favouriteProvider =
-                                    Provider.of<FavouriteProvider>(context,
-                                        listen: false);
-                                setState(() {
-                                  Category.icon =
-                                      Category.icon == Icons.favorite
-                                          ? Icons.favorite_border
-                                          : Icons.favorite;
-                                });
+                        IconButton(
+                          onPressed: () {
+                            final favouriteProvider =
+                                Provider.of<FavouriteProvider>(context,
+                                    listen: false);
+                            setState(() {
+                              Category.icon = Category.icon == Icons.favorite
+                                  ? Icons.favorite_border
+                                  : Icons.favorite;
+                            });
 
-                                if (Category.icon == Icons.favorite) {
-                                  final favouriteItem = {
-                                    'name': Category.name ?? "No Name",
-                                    'image': Category.image ??
-                                        'assets/images/placeholder.jpg',
-                                    'price': Category.price ?? "No Price",
-                                    'icon': Category.icon
-                                  };
+                            if (Category.icon == Icons.favorite) {
+                              final favouriteItem = {
+                                'name': Category.name ?? "No Name",
+                                'image': Category.image ??
+                                    'assets/images/placeholder.jpg',
+                                'price': Category.price ?? "No Price",
+                                'icon': Category.icon
+                              };
 
-                                  if (mounted) {
-                                    favouriteProvider
-                                        .addToFavourites(favouriteItem);
-                                  }
-                                }
-                              },
-                              icon: Icon(
-                                Category.icon,
-                                color: Colors.red,
-                                size: 30,
-                              ),
-                            )
+                              if (mounted) {
+                                favouriteProvider
+                                    .addToFavourites(favouriteItem);
+                              }
+                            }
+                               else { // delete the favourite from favourite
+                                if (mounted) {
+                            favouriteProvider.removeByName(Category.name ?? "");
+                              }
+                              }
+                          },
+                          icon: Icon(
+                            Category.icon,
+                            color: Colors.red,
+                            size: 30,
+                          ),
+                        )
                       ],
                     ),
                   ],

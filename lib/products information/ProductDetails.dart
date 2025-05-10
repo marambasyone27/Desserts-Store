@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maramstore/ThemeProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:maramstore/CartProvider.dart';
 
@@ -21,10 +22,25 @@ class ProductDetails extends StatefulWidget {
 class _ProductDetailsState extends State<ProductDetails> {
   double userRating = 0.0;
 
-  @override
+      @override
   Widget build(BuildContext context) {
+       final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          // light and dark mode button
+          IconButton(
+            icon: Icon(
+              themeProvider.isDarkMode
+                  ? Icons.dark_mode
+                  :Icons.light_mode,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              themeProvider.toggleTheme();
+            },
+          ),
+        ],
         iconTheme: IconThemeData(color: Colors.white),
         elevation: 30,
         shadowColor: Colors.pink,
@@ -71,14 +87,16 @@ class _ProductDetailsState extends State<ProductDetails> {
             ),
             const SizedBox(height: 20),
              // Rating Section
-            Row(
+             SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+            child:Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
                   "Rate this product: ",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.pinkAccent),
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.pinkAccent),
                 ),
-                const SizedBox(width: 10),
+               // const SizedBox(width: 6),
                 ...List.generate(5, (index) {
                   return IconButton(
                     onPressed: () {
@@ -89,13 +107,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                     icon: Icon(
                       index < userRating ? Icons.star : Icons.star_border,
                       color: Colors.amber,
-                      size: 30,
+                      size: 25,
                     ),
                   );
                 }),
               ],
             ),
-            
+             ),
             const SizedBox(height: 10),
             ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.pinkAccent),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:maramstore/Shared.dart';
-import 'package:maramstore/Start.dart';
+import 'package:maramstore/ThemeProvider.dart';
 import 'package:maramstore/enum.dart';
+import 'package:maramstore/start%20screens/Start.dart';
+import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class Onboarding extends StatefulWidget {
@@ -33,9 +35,22 @@ class _OnboardingScreenState extends State<Onboarding> {
 
   @override
   Widget build(BuildContext context) {
+     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         actions: [
+             // light and dark mode button
+          IconButton(
+            icon: Icon(
+              themeProvider.isDarkMode
+                  ? Icons.dark_mode
+                  :Icons.light_mode,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              themeProvider.toggleTheme();
+            },
+          ),
           TextButton(
             onPressed: () {
               Shared.putBoolean(key: SharedKeys.isLastOnboarding, value: true);
@@ -55,6 +70,7 @@ class _OnboardingScreenState extends State<Onboarding> {
               ),
             ),
           ),
+
         ],
       ),
       body: SafeArea(
@@ -73,11 +89,13 @@ class _OnboardingScreenState extends State<Onboarding> {
                   return Padding(
                     padding: const EdgeInsets.all(16),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
                           width: MediaQuery.of(context).size.width * 0.8,
-                          height: MediaQuery.of(context).size.height * 0.6,
+                          height: MediaQuery.of(context).size.height * 0.5,
                           decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
                             image: DecorationImage(
                               image: AssetImage(images[index]),
                               fit: BoxFit.cover,
@@ -131,11 +149,12 @@ class _OnboardingScreenState extends State<Onboarding> {
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(120, 40),
+                      backgroundColor: Colors.pink,
                     ),
                     child: const Text(
                       "Next",
                       style: TextStyle(
-                        color: Colors.pink,
+                        color: Colors.white,
                         fontFamily: 'RobotoMono',
                         fontSize: 18,
                         fontWeight: FontWeight.bold,

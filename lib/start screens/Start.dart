@@ -1,17 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:maramstore/Login.dart';
-import 'package:maramstore/Register.dart';
+import 'package:maramstore/Other%20screens/Login.dart';
+import 'package:maramstore/Other%20screens/Register.dart';
+import 'package:maramstore/ThemeProvider.dart';
+import 'package:provider/provider.dart';
 
 class Start extends StatelessWidget {
   const Start({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context); 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Stack(
           children: [
+                  Positioned.fill(
+                child: ColorFiltered(
+                  colorFilter: isDark
+                      ? ColorFilter.mode(
+                          Colors.black.withOpacity(0.6),
+                          BlendMode.darken,
+                        )
+                      : const ColorFilter.mode(
+                          Colors.transparent,
+                          BlendMode.multiply,
+                        ),
+                  child:
             // Background Image
             Image.asset(
               "assets/images/strawberryMilkShake2.jpg",
@@ -19,16 +35,18 @@ class Start extends StatelessWidget {
               width: double.infinity,
               height: double.infinity,
             ),
+                ),
+                  ),
             // Texts and Buttons
             Align(
               alignment: Alignment.topCenter,
               child: Padding(
-                padding: const EdgeInsets.only(top: 5), // Space from the top
+                padding: const EdgeInsets.only(top: 8), // Space from the top
                 child: Column(
                   mainAxisSize: MainAxisSize.max, // Fill available height
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    // Text 1
+
                     const Text(
                       "Welcome to a world of delightful flavors! 🍦🎂🍹🍫",
                       textAlign: TextAlign.center,
@@ -69,7 +87,6 @@ class Start extends StatelessWidget {
                     ),
                     // Space between the texts and buttons
                     const SizedBox(height: 400), // Adjust this value to position the buttons higher or lower
-
                     // Sign In Button
                     ElevatedButton(
                       onPressed: () {
@@ -128,6 +145,21 @@ class Start extends StatelessWidget {
                 ),
               ),
             ),
+            Positioned(
+                top: 40,
+                right: 20,
+                child: IconButton(
+                  icon: Icon(
+                    isDark ? Icons.nights_stay :Icons.wb_sunny,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                  onPressed: () {
+                    Provider.of<ThemeProvider>(context, listen: false)
+                        .toggleTheme();
+                  },
+                ),
+              ),
           ],
         ),
       ),

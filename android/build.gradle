@@ -4,7 +4,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.3.0' // تأكد من استخدام أحدث إصدار متوافق مع مشروعك
+        classpath 'com.android.tools.build:gradle:8.1.0' // ✅ تحديث Android Gradle Plugin
         classpath 'com.google.gms:google-services:4.4.2' // إضافة Google Services
     }
 }
@@ -20,6 +20,19 @@ rootProject.buildDir = "../build"
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
 }
+
+subprojects {
+    afterEvaluate { project ->
+        if (project.hasProperty('android')) {
+            project.android {
+                if (namespace == null) {
+                    namespace project.group
+                }
+            }
+        }
+    }
+}
+
 subprojects {
     project.evaluationDependsOn(":app")
 }

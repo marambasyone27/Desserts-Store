@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:maramstore/ThemeProvider.dart';
+import 'package:provider/provider.dart';
 
 class ContactUs extends StatefulWidget {
   @override
@@ -10,9 +12,23 @@ class _ContactUsState extends State<ContactUs> {
 
   @override
   Widget build(BuildContext context) {
+        final themeProvider = Provider.of<ThemeProvider>(context); 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(
-                iconTheme: const IconThemeData(color: Colors.white),
+        actions: [
+          // light and dark mode 
+          IconButton(
+            icon: Icon(
+              isDark ? Icons.dark_mode : Icons.light_mode,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              themeProvider.toggleTheme();
+            },
+          )
+        ],
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: const Color.fromARGB(255, 246, 134, 171),
         title: 
         const Text(
@@ -42,11 +58,23 @@ class _ContactUsState extends State<ContactUs> {
             child: Stack(
               children: [
                 Positioned.fill(
-                  child: Image.asset(
+                  child:  ColorFiltered(
+                  colorFilter: isDark
+                      ? ColorFilter.mode(
+                          Colors.black.withOpacity(0.6),
+                          BlendMode.darken, 
+                        )
+                      : const ColorFilter.mode(
+                          Colors.transparent,
+                          BlendMode.multiply,
+                        ),
+                  child:
+                  Image.asset(
                     "assets/images/strawberry2.jpg",
                     fit: BoxFit.cover,
                   ),
                 ),
+            ),
                 Center(
                   child: Container(
                     width: 320,
@@ -377,7 +405,7 @@ class _ContactUsState extends State<ContactUs> {
             color: Color.fromARGB(255, 246, 134, 171),
             alignment: Alignment.center,
             child: const Text(
-              "Copyright © 2025 Maram's Sweet Haven. All rights reserved.",
+              "Copyright © 2025 Sweet Haven. All rights reserved.",
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,

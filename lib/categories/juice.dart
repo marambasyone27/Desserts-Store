@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:maramstore/ProductDetails.dart';
-import 'package:maramstore/Products_Information.dart';
+import 'package:maramstore/FavouriteProvider.dart';
+import 'package:maramstore/ThemeProvider.dart';
+import 'package:maramstore/products%20information/ProductDetails.dart';
+import 'package:maramstore/products%20information/Products_Information.dart';
 import 'package:provider/provider.dart';
 
-import 'FavouriteProvider.dart';
 
 class Juice extends StatefulWidget {
   @override
@@ -13,8 +14,23 @@ class Juice extends StatefulWidget {
 class _JuiceState extends State<Juice> {
   @override
   Widget build(BuildContext context) {
+       final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          // light and dark mode button
+          IconButton(
+            icon: Icon(
+              themeProvider.isDarkMode
+                  ? Icons.dark_mode
+                  :Icons.light_mode,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              themeProvider.toggleTheme();
+            },
+          ),
+        ],
         iconTheme: const IconThemeData(color: Colors.white),
         shadowColor: const Color.fromARGB(255, 96, 5, 35),
         elevation: 2.0,
@@ -78,7 +94,7 @@ class _JuiceState extends State<Juice> {
                       child: Image.asset(
                         Category.image ?? 'assets/images/placeholder.jpg',
                         width: double.infinity,
-                        height: 160,
+                        height: 140,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -149,6 +165,12 @@ class _JuiceState extends State<Juice> {
                                         .addToFavourites(favouriteItem);
                                   }
                                 }
+
+                                else { // delete the favourite from favourite
+                                if (mounted) {
+                            favouriteProvider.removeByName(Category.name ?? "");
+                              }
+                              }
                               },
                               icon: Icon(
                                 Category.icon,

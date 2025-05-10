@@ -6,8 +6,9 @@ class Products_Information {
   String ?image;
   IconData ?icon;
    Products_Information(this.name, this.price, this.image, this.icon);
+   Products_Information.withIcon(this.icon);
 }
-
+     
 List<Products_Information> AllCategories = [
   Products_Information("strawberry Cake", "250EGP", "assets/images/strawberryCake2.jpg", Icons.favorite_border_outlined),
   Products_Information( "Sprite soda", "80EGP",  "assets/images/Sprite soda.jpg",Icons.favorite_border_outlined),
@@ -46,7 +47,7 @@ List<Products_Information> Juices = [
   Products_Information( "Fresh Lemon Juice", "80EGP",  "assets/images/freshLemonJuice.jpg",Icons.favorite_border_outlined),
   Products_Information( "Fresh Mango Juice",  "70EGP", "assets/images/mangoJuice.jpg", Icons.favorite_border_outlined),
   Products_Information( "Sprite soda", "80EGP",  "assets/images/Sprite soda.jpg",Icons.favorite_border_outlined),
-  Products_Information( "Coca-Cola",  "80EGP", "assets/images/coca-cola.jpg", Icons.favorite_border_outlined),
+  Products_Information("Cookie Milkshake", "110EGP", "assets/images/Cookie Milkshake.jpg", Icons.favorite_border_outlined),
   Products_Information("lotus MilkShake", "140EGP", "assets/images/lotusMilkShake.jpg",Icons.favorite_border_outlined),
    Products_Information("strawberry MilkShake", "150EGP", "assets/images/strawberryMilkShake.jpg", Icons.favorite_border_outlined),
   Products_Information("Vanilla Milkshake", "130EGP", "assets/images/VanillaMilkshake.jpg", Icons.favorite_border_outlined),

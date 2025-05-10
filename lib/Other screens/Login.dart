@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:maramstore/ForgotPasswordPage.dart';
-import 'package:maramstore/Home.dart';
-import 'package:maramstore/Register.dart';
+import 'package:maramstore/Other%20screens/ForgotPasswordPage.dart';
+import 'package:maramstore/Other%20screens/Home.dart';
+import 'package:maramstore/Other%20screens/Register.dart';
+import 'package:maramstore/ThemeProvider.dart';
 import 'package:maramstore/enum.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:maramstore/Shared.dart';
 
@@ -23,10 +25,20 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Provider.of<ThemeProvider>(context).isDarkMode;
     return Scaffold(
       body: Stack(
         children: [
-          Center(
+    ColorFiltered(
+                  colorFilter: isDark
+                      ? ColorFilter.mode(
+                          Colors.black.withOpacity(0.6),
+                          BlendMode.darken,
+                        )
+                      : const ColorFilter.mode(
+                          Colors.transparent,
+                          BlendMode.multiply,
+                        ),
             child: Image.asset(
               "assets/images/login.jpg",
               height: double.infinity,
@@ -265,7 +277,7 @@ class _LoginState extends State<Login> {
                               const Text(
                                 "Remember me",
                                 style: TextStyle(
-                                  fontSize: 17,
+                                  fontSize: 14,
                                   fontFamily: 'RobotoMono',
                                   color: Colors.white,
                                   shadows: [
@@ -291,7 +303,7 @@ class _LoginState extends State<Login> {
                             child: const Text(
                               "Forgot Password?",
                               style: TextStyle(
-                                fontSize: 17,
+                                fontSize: 14,
                                 fontFamily: 'RobotoMono',
                                 color: Colors.white,
                                 shadows: [
@@ -366,6 +378,21 @@ class _LoginState extends State<Login> {
               ),
             ),
           ),
+          Positioned(
+                top: 40,
+                right: 20,
+                child: IconButton(
+                  icon: Icon(
+                    isDark ? Icons.nights_stay :Icons.wb_sunny,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                  onPressed: () {
+                    Provider.of<ThemeProvider>(context, listen: false)
+                        .toggleTheme();
+                  },
+                ),
+              ),
         ],
       ),
     );

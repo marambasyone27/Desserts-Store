@@ -2,21 +2,26 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:maramstore/About_US.dart';
-import 'package:maramstore/Cake.dart';
-import 'package:maramstore/Cart.dart';
-import 'package:maramstore/Contact_US.dart';
-import 'package:maramstore/Favourite.dart';
+
 import 'package:maramstore/FavouriteProvider.dart';
-import 'package:maramstore/IceCream.dart';
-import 'package:maramstore/Login.dart';
-import 'package:maramstore/ProductDetails.dart';
-import 'package:maramstore/Products_Information.dart';
-import 'package:maramstore/ProfilePage.dart';
+import 'package:maramstore/Other%20screens/About_US.dart';
+import 'package:maramstore/Other%20screens/Cart.dart';
+import 'package:maramstore/Other%20screens/Contact_US.dart';
+import 'package:maramstore/Other%20screens/Favourite.dart';
+import 'package:maramstore/Other%20screens/Login.dart';
+import 'package:maramstore/Other%20screens/ProfilePage.dart';
+
 import 'package:maramstore/Shared.dart';
-import 'package:maramstore/Sweets.dart';
+import 'package:maramstore/ThemeProvider.dart';
+import 'package:maramstore/categories/Cake.dart';
+import 'package:maramstore/categories/IceCream.dart';
+import 'package:maramstore/categories/Sweets.dart';
+import 'package:maramstore/categories/juice.dart';
+
 import 'package:maramstore/enum.dart';
-import 'package:maramstore/juice.dart';
+import 'package:maramstore/products%20information/ProductDetails.dart';
+import 'package:maramstore/products%20information/Products_Information.dart';
+
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
@@ -27,6 +32,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+        final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
           //backgroundColor: Colors.pinkAccent,
@@ -73,7 +79,7 @@ class _HomeState extends State<Home> {
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Colors.pink,
         title: const Text(
-          "Welcome to Maram's Store",
+          "Welcome to sweet Haven",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 18,
@@ -84,6 +90,18 @@ class _HomeState extends State<Home> {
         ),
         centerTitle: true,
         actions: [
+              // light and dark mode button
+          IconButton(
+            icon: Icon(
+              themeProvider.isDarkMode
+                  ? Icons.dark_mode
+                  :Icons.light_mode,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              themeProvider.toggleTheme();
+            },
+          ),
           IconButton(
             onPressed: () {
               Navigator.of(context)
@@ -153,9 +171,33 @@ class _HomeState extends State<Home> {
                   .push(MaterialPageRoute(builder: (context) => Cart()));
             }),
             _buildDrawerItem(Icons.logout, "Sign out", Colors.orange, () {
+              // using dialog
+              showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text("Sign out"),
+        content: const Text("Are you sure you want to sign out?"),
+        actions: [
+          TextButton(
+            child: const Text("Cancel"),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          TextButton(
+            child: const Text("sign out"),
+            onPressed: () {
               Shared.putBoolean(key: SharedKeys.isLogin, value: false);
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => Login()));
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Login()));
+            },
+          ),
+        ],
+      );
+    },
+  );
+
+              
             }),
           ],
         ),
@@ -352,7 +394,7 @@ class _HomeState extends State<Home> {
                           child: Image.asset(
                             Category.image ?? 'assets/images/placeholder.jpg',
                             width: double.infinity,
-                            height: 160,
+                            height: 140,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -414,7 +456,12 @@ class _HomeState extends State<Home> {
                                     favouriteProvider
                                         .addToFavourites(favouriteItem);
                                   }
-                                }
+                                } 
+                                 else { // delete the favourite from favourite
+                                if (mounted) {
+                            favouriteProvider.removeByName(Category.name ?? "");
+                              }
+                              }
                               },
                               icon: Icon(
                                 Category.icon,
@@ -446,7 +493,7 @@ class _HomeState extends State<Home> {
   }
 }
 
-class CustomSearchDelegate extends SearchDelegate<String> {
+/*class CustomSearchDelegate extends SearchDelegate<String> {
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
@@ -514,3 +561,4 @@ class CustomSearchDelegate extends SearchDelegate<String> {
     }
   }
 }
+*/
