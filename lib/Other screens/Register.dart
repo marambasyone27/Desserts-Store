@@ -61,7 +61,7 @@ class _RegisterState extends State<Register> {
                         children: [
                           const SizedBox(height: 50),
                           const Text(
-                            "🍰Join to the Sweet Haven family and enjoy the sweetest deals✨",
+                            "🍰Join to the Maram's Sweet Haven family and enjoy the sweetest deals✨",
                             style: TextStyle(
                               fontSize: 24,
                               fontFamily: 'RobotoMono',

@@ -6,6 +6,8 @@ import 'package:maramstore/products%20information/Products_Information.dart';
 import 'package:provider/provider.dart';
 
 class Sweets extends StatefulWidget {
+  const Sweets({super.key});
+
   @override
   State<StatefulWidget> createState() => _SweetsState();
 }

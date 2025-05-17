@@ -62,7 +62,7 @@ class _Cake extends State<Cake> {
           crossAxisSpacing: 8.0,
           childAspectRatio: 0.75,
         ),
-        itemCount: Cakes.length, // تأكد من أن Cakes تحتوي على بيانات صحيحة
+        itemCount: Cakes.length, 
         itemBuilder: (context, i) {
           final Category = Cakes[i];
 
@@ -94,7 +94,7 @@ class _Cake extends State<Cake> {
                           child: Image.asset(
                             Category.image ?? 'assets/images/placeholder.jpg',
                             width: double.infinity,
-                            height: 140,
+                            height: 120,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -125,7 +125,7 @@ class _Cake extends State<Cake> {
                               "${Category.price}",
                               style: const TextStyle(
                                 fontStyle: FontStyle.italic,
-                                fontSize: 18,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.pinkAccent,
                               ),
@@ -167,7 +167,7 @@ class _Cake extends State<Cake> {
                               icon: Icon(
                                 Category.icon,
                                 color: Colors.red,
-                                size: 30,
+                                size: 27,
                               ),
                             )
                           ],

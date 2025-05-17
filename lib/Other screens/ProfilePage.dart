@@ -36,7 +36,7 @@ class _ProfilePageState extends State<ProfilePage> {
       name = prefs.getString('name');
       email = prefs.getString('email');
       phone = prefs.getString('phone');
-      imagePath = prefs.getString('imagePath'); // Load the image path
+      imagePath = prefs.getString('imagePath'); 
       selectedGender = prefs.getString('gender');
       String? dateString = prefs.getString('birthdate');
       if (dateString != null) {

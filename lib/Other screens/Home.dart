@@ -1,8 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
 import 'package:maramstore/FavouriteProvider.dart';
 import 'package:maramstore/Other%20screens/About_US.dart';
 import 'package:maramstore/Other%20screens/Cart.dart';
@@ -10,19 +6,17 @@ import 'package:maramstore/Other%20screens/Contact_US.dart';
 import 'package:maramstore/Other%20screens/Favourite.dart';
 import 'package:maramstore/Other%20screens/Login.dart';
 import 'package:maramstore/Other%20screens/ProfilePage.dart';
-
 import 'package:maramstore/Shared.dart';
 import 'package:maramstore/ThemeProvider.dart';
 import 'package:maramstore/categories/Cake.dart';
 import 'package:maramstore/categories/IceCream.dart';
 import 'package:maramstore/categories/Sweets.dart';
 import 'package:maramstore/categories/juice.dart';
-
 import 'package:maramstore/enum.dart';
 import 'package:maramstore/products%20information/ProductDetails.dart';
 import 'package:maramstore/products%20information/Products_Information.dart';
-
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -30,72 +24,77 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  // Variables to store name and email
+  Future<Map<String, String>> _getUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return {
+      'name': prefs.getString('name') ?? 'User',
+      'email': prefs.getString('email') ?? 'No Email',
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
-        final themeProvider = Provider.of<ThemeProvider>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-          //backgroundColor: Colors.pinkAccent,
-          selectedFontSize: 21,
-          selectedItemColor: Colors.pinkAccent,
-          selectedLabelStyle: const TextStyle(
-              fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
-          selectedIconTheme: const IconThemeData(color: Colors.pinkAccent),
-          unselectedFontSize: 20,
-          unselectedItemColor: Colors.pinkAccent,
-          unselectedLabelStyle: const TextStyle(fontStyle: FontStyle.italic),
-          unselectedIconTheme: const IconThemeData(color: Colors.pinkAccent),
-          items: [
-            BottomNavigationBarItem(
-                icon: IconButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => Home()));
-                    },
-                    icon: const Icon(Icons.home_outlined)),
-                label: "Home"),
-            BottomNavigationBarItem(
-                icon: IconButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) =>
-                               Favourite(), // No need to pass any parameters
-                        ),
-                      );
-                    },
-                    icon: const Icon(Icons.favorite_border_outlined)),
-                label: "Favorite"),
-            BottomNavigationBarItem(
-                icon: IconButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const ProfilePage()));
-                    },
-                    icon: const Icon(Icons.person)),
-                label: "Profile"),
-          ]),
+        selectedFontSize: 21,
+        selectedItemColor: Colors.pinkAccent,
+        selectedLabelStyle: const TextStyle(
+            fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
+        selectedIconTheme: const IconThemeData(color: Colors.pinkAccent),
+        unselectedFontSize: 20,
+        unselectedItemColor: Colors.pinkAccent,
+        unselectedLabelStyle: const TextStyle(fontStyle: FontStyle.italic),
+        unselectedIconTheme: const IconThemeData(color: Colors.pinkAccent),
+        items: [
+          BottomNavigationBarItem(
+              icon: IconButton(
+                  onPressed: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) => Home()));
+                  },
+                  icon: const Icon(Icons.home_outlined)),
+              label: "Home"),
+          BottomNavigationBarItem(
+              icon: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => Favourite(),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.favorite_border_outlined)),
+              label: "Favorite"),
+          BottomNavigationBarItem(
+              icon: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => ProfilePage()));
+                  },
+                  icon: const Icon(Icons.person)),
+              label: "Profile"),
+        ],
+      ),
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Colors.pink,
         title: const Text(
-          "Welcome to sweet Haven",
+          "Welcome to Maram's Sweet Haven",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 18,
-            fontFamily: "Montserrat",
+            fontFamily: "Caveat",
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
         ),
         centerTitle: true,
         actions: [
-              // light and dark mode button
           IconButton(
             icon: Icon(
-              themeProvider.isDarkMode
-                  ? Icons.dark_mode
-                  :Icons.light_mode,
+              themeProvider.isDarkMode ? Icons.dark_mode : Icons.light_mode,
               color: Colors.white,
             ),
             onPressed: () {
@@ -145,61 +144,71 @@ class _HomeState extends State<Home> {
         ),
       ),
       drawer: Drawer(
-        child: ListView(
-          children: [
-            const UserAccountsDrawerHeader(
-              accountName: Text("Maram"),
-              accountEmail: Text("Marambasyone1@gmail.com"),
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: AssetImage("assets/images/cat8.jpg"),
-              ),
-              decoration: BoxDecoration(color: Colors.pink),
-            ),
-            _buildDrawerItem(Icons.home, "Home", Colors.pinkAccent, () {
-              Navigator.pop(context);
-            }),
-            _buildDrawerItem(Icons.info, "About us", Colors.pink, () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => AboutUs()));
-            }),
-            _buildDrawerItem(Icons.contact_page, "Contact us", Colors.blue, () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => ContactUs()));
-            }),
-            _buildDrawerItem(Icons.shopping_cart, "Cart", Colors.green, () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => Cart()));
-            }),
-            _buildDrawerItem(Icons.logout, "Sign out", Colors.orange, () {
-              // using dialog
-              showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text("Sign out"),
-        content: const Text("Are you sure you want to sign out?"),
-        actions: [
-          TextButton(
-            child: const Text("Cancel"),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          TextButton(
-            child: const Text("sign out"),
-            onPressed: () {
-              Shared.putBoolean(key: SharedKeys.isLogin, value: false);
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Login()));
-            },
-          ),
-        ],
-      );
-    },
-  );
-
-              
-            }),
-          ],
+        child: FutureBuilder<Map<String, String>>(
+          future: _getUserData(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.hasError) {
+              return const Center(child: Text('Error loading user data'));
+            }
+            final userData = snapshot.data ?? {'name': 'User', 'email': 'No Email'};
+            return ListView(
+              children: [
+                UserAccountsDrawerHeader(
+                  accountName: Text('Hello ' + userData['name']! + ' to  Maram Sweet Haven'),
+                  accountEmail: Text(userData['email']!),
+                  currentAccountPicture: const CircleAvatar(
+                    backgroundImage: AssetImage("assets/images/cat8.jpg"),
+                  ),
+                  decoration: const BoxDecoration(color: Colors.pink),
+                ),
+                _buildDrawerItem(Icons.home, "Home", Colors.pinkAccent, () {
+                  Navigator.pop(context);
+                }),
+                _buildDrawerItem(Icons.info, "About us", Colors.pink, () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => AboutUs()));
+                }),
+                _buildDrawerItem(Icons.contact_page, "Contact us", Colors.blue, () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => ContactUs()));
+                }),
+                _buildDrawerItem(Icons.shopping_cart, "Cart", Colors.green, () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => Cart()));
+                }),
+                _buildDrawerItem(Icons.logout, "Sign out", Colors.orange, () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text("Sign out"),
+                        content: const Text("Are you sure you want to sign out?"),
+                        actions: [
+                          TextButton(
+                            child: const Text("Cancel"),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                          TextButton(
+                            child: const Text("Sign out"),
+                            onPressed: () {
+                              Shared.putBoolean(key: SharedKeys.isLogin, value: false);
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) => Login()));
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }),
+              ],
+            );
+          },
         ),
       ),
       body: ListView(
@@ -283,8 +292,8 @@ class _HomeState extends State<Home> {
                       ),
                       child: IconButton(
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => Icecream()));
+                          Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) => Icecream()));
                         },
                         icon: const Icon(Icons.icecream, color: Colors.white),
                       ),
@@ -308,8 +317,8 @@ class _HomeState extends State<Home> {
                       ),
                       child: IconButton(
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => Sweets()));
+                          Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) => Sweets()));
                         },
                         icon: const Icon(Icons.cookie_outlined,
                             color: Colors.white),
@@ -351,7 +360,6 @@ class _HomeState extends State<Home> {
             ],
           ),
           const SizedBox(height: 5),
-          // Testing GridView
           Expanded(
             child: GridView.builder(
               physics: const NeverScrollableScrollPhysics(),
@@ -365,7 +373,6 @@ class _HomeState extends State<Home> {
               itemCount: AllCategories.isNotEmpty ? AllCategories.length : 0,
               itemBuilder: (context, i) {
                 final Category = AllCategories[i];
-
                 return GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -442,7 +449,6 @@ class _HomeState extends State<Home> {
                                           ? Icons.favorite_border
                                           : Icons.favorite;
                                 });
-
                                 if (Category.icon == Icons.favorite) {
                                   final favouriteItem = {
                                     'name': Category.name ?? "No Name",
@@ -451,17 +457,16 @@ class _HomeState extends State<Home> {
                                     'price': Category.price ?? "No Price",
                                     'icon': Category.icon
                                   };
-
                                   if (mounted) {
                                     favouriteProvider
                                         .addToFavourites(favouriteItem);
                                   }
-                                } 
-                                 else { // delete the favourite from favourite
-                                if (mounted) {
-                            favouriteProvider.removeByName(Category.name ?? "");
-                              }
-                              }
+                                } else {
+                                  if (mounted) {
+                                    favouriteProvider
+                                        .removeByName(Category.name ?? "");
+                                  }
+                                }
                               },
                               icon: Icon(
                                 Category.icon,
@@ -492,73 +497,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
-/*class CustomSearchDelegate extends SearchDelegate<String> {
-  @override
-  List<Widget>? buildActions(BuildContext context) {
-    return [
-      IconButton(
-        icon: Icon(Icons.clear), // Clears the search input
-        onPressed: () {
-          query = ""; // Clears the search input
-        },
-      ),
-    ];
-  }
-
-  @override
-  Widget? buildLeading(BuildContext context) {
-    return IconButton(
-      icon: Icon(Icons.arrow_back),
-      onPressed: () {
-        close(context, ""); // Closes the search
-      },
-    );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    return Center(
-      child: Text("Search Result: $query"),
-    );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    List<String> suggestions = ["Apple", "Banana", "Cherry", "Date", "Fig"]
-        .where((item) => item.toLowerCase().contains(query.toLowerCase()))
-        .toList();
-    if (query.isEmpty) {
-      return ListView.builder(
-        itemCount: suggestions.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(suggestions[index]),
-            onTap: () {
-              query = suggestions[index]; // Set the selected item as query
-              showResults(context); // Show results when tapped
-            },
-          );
-        },
-      );
-    } else {
-      List<String> filterSuggestions = suggestions
-          .where((item) => item.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-      return ListView.builder(
-        itemCount: filterSuggestions.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(filterSuggestions[index]),
-            onTap: () {
-              query =
-                  filterSuggestions[index]; // Set the selected item as query
-              showResults(context); // Show results when tapped
-            },
-          );
-        },
-      );
-    }
-  }
-}
-*/

@@ -22,7 +22,7 @@ class AboutUs extends StatelessWidget {
             // ),
             const SizedBox(width: 5),
             const Text(
-              "🍭About My Store🍭",
+              "🍭About Maram's Sweet Haven🍭 ",
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
