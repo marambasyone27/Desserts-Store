@@ -57,7 +57,7 @@ This app provides an elegant and intuitive user experience with smooth navigatio
 - 🔐 Register & login functionality  
 - 🧁 Category browsing by dessert type  
 - 💖 Add/remove favorites  
-- 🛒 Cart with total price calculation & delete  
+- 🛒 Cart with products and you can delete  it
 - 📃 Product details with full info  
 - 📧 Contact us with animated layout  
 - 👤 Profile page with customization  
