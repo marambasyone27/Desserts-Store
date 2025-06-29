@@ -41,8 +41,8 @@ class MyApp extends StatelessWidget {
       ),
       themeMode: themeProvider.themeMode, 
 
-      home: Splashscreen(),
-      //home: Home(),
+      //home: Splashscreen(),
+      home: Home(),
     );
   }
 }

@@ -27,6 +27,20 @@ class _ProductDetailsState extends State<ProductDetails> {
        final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
+         backgroundColor: Colors.transparent,
+              elevation: 0,
+              flexibleSpace: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromARGB(255, 175, 128, 111),
+                      Color.fromARGB(255, 215, 47, 103),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+              ),
         actions: [
           // light and dark mode button
           IconButton(
@@ -42,7 +56,6 @@ class _ProductDetailsState extends State<ProductDetails> {
           ),
         ],
         iconTheme: IconThemeData(color: Colors.white),
-        elevation: 30,
         shadowColor: Colors.pink,
         title: Text(
           widget.name,

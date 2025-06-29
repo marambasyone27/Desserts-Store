@@ -62,7 +62,6 @@ class _SplashScreenState extends State<Splashscreen>
         return Scaffold(
           body: Stack(
             children: [
-              // Background image with fade animation
               Positioned.fill(
                 child: FadeTransition(
                   opacity: _animation,

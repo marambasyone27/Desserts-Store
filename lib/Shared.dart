@@ -40,11 +40,11 @@ class Shared {
     return sharedPreferences?.getDouble(key.name) ?? 0.0;
   }
 
-  static void removeData({required SharedKeys key}) {
+  static void removeData({required SharedKeys key}) {//remove specific key
     sharedPreferences?.remove(key.name);
   }
 
-  static void deleteData() {
+  static void deleteData() {// clear all data
     sharedPreferences?.clear();
   }
 }

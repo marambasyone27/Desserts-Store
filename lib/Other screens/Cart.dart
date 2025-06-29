@@ -101,7 +101,7 @@ class Cart extends StatelessWidget {
                         trailing: IconButton(
                           icon: const Icon(Icons.delete, color: Colors.red),
                            onPressed: () {
-  showDialog(
+     showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
