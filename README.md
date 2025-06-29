@@ -56,7 +56,7 @@ This app is built with `Provider` for efficient state management and clean archi
 
 - 🍨 Smooth & colorful onboarding
 - 🛍️ Real-time product viewing with dynamic UI
-- 🛒 Cart management with total price calculation
+- 🛒 Cart management
 - 🧾 Contact and About screens for user interaction
 - 💖 Favorite products management
 - 👤 Register, login & profile support
